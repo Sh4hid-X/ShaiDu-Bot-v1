@@ -2,8 +2,8 @@ module.exports.config = {
   name: "hi",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-  description: "hi sticker",
+  credits: "Sam",
+  description: "hi gửi sticker",
   commandCategory: "QTV BOX",
   usages: "[text]",
   cooldowns: 5
@@ -13,6 +13,17 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
   let KEY = [ 
     "hello",
     "hi",
+    "hello po",
+    "hi po",
+    "hiii",
+    "helloo",
+    "loe",
+    "low",
+    "lo",
+    "hey",
+    "heyy",
+    "loe po",
+    "low po",
     "hai",
     "chào",
     "chao",
@@ -21,41 +32,37 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
     "hì",
     "hìì",
     "lô",
-    "hii",
     "helo",
-    "hê nhô"
+    "hê nhô",
+    "yo",
+    "wazzup",
+    "wassup",
+    "hey",
+    "2",
+    "hola"
   ];
   let thread = global.data.threadData.get(event.threadID) || {};
   if (typeof thread["hi"] == "undefined", thread["hi"] == false) return
   else {
   if (KEY.includes(event.body.toLowerCase()) !== false) {
     let data = [
-      "526214684778630",
-      "526220108111421",
-      "526220308111401",
-      "526220484778050",
-      "526220691444696",
-      "526220814778017",
-      "526220978111334",
-      "526221104777988",
-      "526221318111300",
-      "526221564777942",
-      "526221711444594",
-      "526221971444568",
-     "2041011389459668", "2041011569459650", "2041011726126301", "2041011836126290", "2041011952792945", "2041012109459596", "2041012262792914", "2041012406126233", "2041012539459553", "2041012692792871", "2041014432792697", "2041014739459333", "2041015016125972", "2041015182792622", "2041015329459274", "2041015422792598", "2041015576125916", "2041017422792398", "2041020049458802", "2041020599458747", "2041021119458695", "2041021609458646", "2041022029458604", "2041022286125245"
+      "184002922217363", "184023658881956", "184003212217334", "184002655550723", "184003438883978", "2379545595403511", "1926234657415528", "4046655705381617", "4046877352026119", "4046884992025355", "4070816262965561"
     ];
     let sticker = data[Math.floor(Math.random() * data.length)];
+let juswa = ["have you eaten?", "what are you doing?", "how are you senpai?", "I'm a chat bot nice to meet you", "I'm updating my commands, what are you doing?", "Can you interact with me using sim command?","You're so beautiful/handsome binibini/ginoo", "I love you mwa */kiss your forehead.","are you bored? talk to my admin", "how are you my dear", "eat some sweets", "are you ok?", "be safe", ""];
+ let juswa1 = juswa[Math.floor(Math.random() * juswa.length)];
+
     let moment = require("moment-timezone");
     let hours = moment.tz('Asia/Manila').format('HHmm');
     let session = (
     hours > 0001 && hours <= 400 ? "bright morning" : 
     hours > 401 && hours <= 700 ? "morning" :
-    hours > 701 && hours <= 1000 ? "shining" :
-    hours > 1001 && hours <= 1200 ? "lunch" : 
-    hours > 1201 && hours <= 1700 ? "afternoon" : 
-    hours > 1701 && hours <= 1800 ? "gloaming" : 
+    hours > 701 && hours <= 1000 ? "morning" :
+    hours > 1001 && hours <= 1100 ? "morning" : 
+    hours > 1100 && hours <= 1500 ? "afternoon" : 
+    hours > 1501 && hours <= 1800 ? "evening" : 
     hours > 1801 && hours <= 2100 ? "evening" : 
-    hours > 2101 && hours <= 2400 ? "late night" : 
+    hours > 2101 && hours <= 2400 ? "late night and advance sleepwel" : 
     "error");
     let name = await Users.getNameUser(event.senderID);
     let mentions = [];
@@ -63,7 +70,7 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
       tag: name,
       id: event.senderID
     })
-    let msg = {body: `Hi ${name}, have a good ${session}`, mentions}
+    let msg = {body: `Hi ${name}, have a good ${session} senpai, ${juswa1}`, mentions}
     api.sendMessage(msg, event.threadID, (e, info) => {
       setTimeout(() => {
         api.sendMessage({sticker: sticker}, event.threadID);
@@ -82,7 +89,7 @@ module.exports.languages = {
 	"en": {
 		"on": "on",
 		"off": "off",
-		"successText": "success!",
+		"successText": `${this.config.name} success!`,
 	}
 }
 
@@ -96,4 +103,4 @@ module.exports.run = async ({ event, api, Threads, getText }) => {
 	});
 	global.data.threadData.set(threadID, data);
 	return api.sendMessage(`${(data["hi"] == false) ? getText("off") : getText("on")} ${getText("successText")}`, threadID, messageID);
-}
+      }

@@ -1,124 +1,173 @@
-const fetch = require("node-fetch");
-const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
-const ytSearch = require("yt-search");
-const https = require("https");
-
-module.exports = {
-  config: {
-    name: "video",
-    version: "1.0.3",
-    hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-    description: "Download YouTube song from keyword search and link",
-    commandCategory: "Media",
-    usages: "[songName] [type]",
-    cooldowns: 5,
-    dependencies: {
-      "node-fetch": "",
-      "yt-search": "",
-    },
-  },
-
-  run: async function ({ api, event, args }) {
-    let songName, type;
-
-    if (
-      args.length > 1 &&
-      (args[args.length - 1] === "audio" || args[args.length - 1] === "video")
-    ) {
-      type = args.pop();
-      songName = args.join(" ");
-    } else {
-      songName = args.join(" ");
-      type = "video";
-    }
-
-    const processingMessage = await api.sendMessage(
-      "✅ Processing your request. Please wait...",
-      event.threadID,
-      null,
-      event.messageID
-    );
-
-    try {
-      // Search for the song on YouTube
-      const searchResults = await ytSearch(songName);
-      if (!searchResults || !searchResults.videos.length) {
-        throw new Error("No results found for your search query.");
-      }
-
-      // Get the top result from the search
-      const topResult = searchResults.videos[0];
-      const videoId = topResult.videoId;
-
-      // Construct API URL for downloading the top result
-      const apiKey = "priyansh-here";
-      const apiUrl = `https://priyansh-ai.onrender.com/youtube?id=${videoId}&type=${type}&apikey=${apiKey}`;
-
-      api.setMessageReaction("⌛", event.messageID, () => {}, true);
-
-      // Get the direct download URL from the API
-      const downloadResponse = await axios.get(apiUrl);
-      const downloadUrl = downloadResponse.data.downloadUrl;
-
-      // Set the filename based on the song title and type
-      const safeTitle = topResult.title.replace(/[^a-zA-Z0-9 \-_]/g, ""); // Clean the title
-      const filename = `${safeTitle}.${type === "audio" ? "mp3" : "mp4"}`;
-      const downloadDir = path.join(__dirname, "cache");
-      const downloadPath = path.join(downloadDir, filename);
-
-      // Ensure the directory exists
-      if (!fs.existsSync(downloadDir)) {
-        fs.mkdirSync(downloadDir, { recursive: true });
-      }
-
-      // Download the file and save locally
-      const file = fs.createWriteStream(downloadPath);
-
-      await new Promise((resolve, reject) => {
-        https.get(downloadUrl, (response) => {
-          if (response.statusCode === 200) {
-            response.pipe(file);
-            file.on("finish", () => {
-              file.close(resolve);
-            });
-          } else {
-            reject(
-              new Error(`Failed to download file. Status code: ${response.statusCode}`)
-            );
-          }
-        }).on("error", (error) => {
-          fs.unlinkSync(downloadPath);
-          reject(new Error(`Error downloading file: ${error.message}`));
-        });
-      });
-
-      api.setMessageReaction("✅", event.messageID, () => {}, true);
-
-      // Send the downloaded file to the user
-      await api.sendMessage(
-        {
-          attachment: fs.createReadStream(downloadPath),
-          body: `🖤 Title: ${topResult.title}\n\n Here is your ${
-            type === "audio" ? "audio" : "video"
-          } 🎧:`,
-        },
-        event.threadID,
-        () => {
-          fs.unlinkSync(downloadPath); // Cleanup after sending
-          api.unsendMessage(processingMessage.messageID);
-        },
-        event.messageID
-      );
-    } catch (error) {
-      console.error(`Failed to download and send song: ${error.message}`);
-      api.sendMessage(
-        `Failed to download song: ${error.message}`,
-        event.threadID,
-        event.messageID
-      );
-    }
-  },
+module.exports.config = {
+	name: "video",
+	version: "1.0.0",
+	hasPermssion: 0,
+	credits: "ZiaRein",
+	description: "Play video via YouTube link or search keyword",
+	commandCategory: "media",
+	usages: "video [Text]",
+	cooldowns: 10,
+	dependencies: {
+		"ytdl-core": "",
+		"simple-youtube-api": "",
+		"fs-extra": "",
+		"axios": ""
+	},
+	envConfig: {
+		"YOUTUBE_API": "AIzaSyByBLcPrhQyiFGIi9ITpbI7EGXQPpBxdQs"
+	}	
 };
+
+module.exports.handleReply = async function({ api, event, handleReply }) {
+	const ytdl = global.nodemodule["ytdl-core"];
+	const { createReadStream, createWriteStream, unlinkSync, statSync } = global.nodemodule["fs-extra"];
+	ytdl.getInfo(handleReply.link[event.body - 1]).then(res => {
+	let body = res.videoDetails.title;
+	api.sendMessage(`Processing video\n-----------\n${body}\n-----------\nPlease Wait`, event.threadID, (err, info) =>
+	setTimeout(() => {api.setMessageReaction("✅", event.messageID, (err) => {}, true) } , 0));
+    });
+	try {
+		ytdl.getInfo(handleReply.link[event.body - 1]).then(res => {
+		let body = res.videoDetails.title;
+		ytdl(handleReply.link[event.body - 1])
+			.pipe(createWriteStream(__dirname + `/cache/${handleReply.link[event.body - 1]}.mp4`))
+			.on("close", () => {
+				if (statSync(__dirname + `/cache/${handleReply.link[event.body - 1]}.mp4`).size > 26214400) return api.sendMessage('The file could not be sent because it is larger than 25MB', event.threadID, () => unlinkSync(__dirname + `/cache/${handleReply.link[event.body - 1]}.mp4`), event.messageID);
+				else return api.sendMessage({body : `${body}`, attachment: createReadStream(__dirname + `/cache/${handleReply.link[event.body - 1]}.mp4`)}, event.threadID, () => unlinkSync(__dirname + `/cache/${handleReply.link[event.body - 1]}.mp4`), event.messageID)
+			})
+			.on("error", (error) => api.sendMessage(`There was a problem while processing the request, error: \n${error}`, event.threadID, event.messageID));
+	});
+	}
+	catch {
+		api.sendMessage("Unable to process your request", event.threadID, event.messageID);
+	}
+	return api.unsendMessage(handleReply.messageID);
+}
+
+module.exports.run = async function({ api, event, args }) {
+	const ytdl = global.nodemodule["ytdl-core"];
+	const YouTubeAPI = global.nodemodule["simple-youtube-api"];
+	const { createReadStream, createWriteStream, unlinkSync, statSync } = global.nodemodule["fs-extra"];
+	
+	const youtube = new YouTubeAPI(global.configModule[this.config.name].YOUTUBE_API);
+	const keyapi = global.configModule[this.config.name].YOUTUBE_API
+	
+	if (args.length == 0 || !args) return api.sendMessage(`Search cannot be left blank\n\nHow to use?\n${global.config.PREFIX}video <search keyword>\n\nExample:\n${global.config.PREFIX}video circle amv\n\nCreated by: ShaiDu`, event.threadID, event.messageID);
+	const keywordSearch = args.join(" ");
+	const videoPattern = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/gm;
+	const urlValid = videoPattern.test(args[0]);
+	
+	if (urlValid) {
+		try {
+            var id = args[0].split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+			(id[2] !== undefined) ? id = id[2].split(/[^0-9a-z_\-]/i)[0] : id = id[0];
+			ytdl(args[0])
+				.pipe(createWriteStream(__dirname + `/cache/${id}.mp4`))
+				.on("close", () => {
+					if (statSync(__dirname + `/cache/${id}.mp4`).size > 26214400) return api.sendMessage('The file could not be sent because it is larger than 25MB', event.threadID, () => unlinkSync(__dirname + `/cache/${id}.mp4`), event.messageID);
+					else return api.sendMessage({attachment: createReadStream(__dirname + `/cache/${id}.mp4`)}, event.threadID, () => unlinkSync(__dirname + `/cache/${id}.mp4`) , event.messageID)
+				})
+				.on("error", (error) => api.sendMessage(`There was a problem while processing the request, error: \n${error}`, event.threadID, event.messageID));
+		}
+		catch {
+			api.sendMessage("Unable to process your request", event.threadID, event.messageID);
+		}
+
+	}
+	else {
+		try {
+			var link = [], msg = "", num = 0, numb = 0;
+			var imgthumnail = [];
+			var results = await youtube.searchVideos(keywordSearch, 6);
+			for (let value of results) {
+				if (typeof value.id == 'undefined') return;
+				link.push(value.id);
+				var idd = value.id;
+				let datab = (await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${value.id}&key=${keyapi}`)).data;
+  let gettime = datab.items[0].contentDetails.duration;
+  let time = (gettime.slice(2));
+        /////////////////////
+        let datac = (await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${value.id}&key=${keyapi}`)).data;
+  let channel = datac.items[0].snippet.channelTitle;
+let folderthumnail = __dirname + `/cache/${numb+=1}.png`;
+
+let linkthumnail = `https://img.youtube.com/vi/${value.id}/maxresdefault.jpg`;
+
+let getthumnail = (await axios.get(`${linkthumnail}`, { responseType: 'arraybuffer' })).data;
+  
+  
+
+
+
+  fs.writeFileSync(folderthumnail, Buffer.from(getthumnail, 'utf-8'));
+  
+  imgthumnail.push(fs.createReadStream(__dirname + `/cache/${numb}.png`));
+        /////=//////////////
+				msg += (`${num+=1}. ${value.title}\nTime: ${time}\nChannel: ${channel}\n-----------------------\n`);
+      }
+  
+      var body = `There are ${link.length} results matching your search term: 
+
+${msg}\nPlease reply a number to convert this to video`
+      
+return api.sendMessage({attachment: imgthumnail, body: body}, event.threadID,(error, info) => global.client.handleReply.push({ 
+  name: this.config.name, 
+  messageID: info.messageID, 
+  author: event.senderID, 
+  link }),
+  event.messageID);
+      
+		}
+		catch (error) {
+      //api.sendMessage("Không thể xử lý request do dã phát sinh lỗi: " + error.message, event.threadID, event.messageID);
+      
+      const fs = global.nodemodule["fs-extra"];
+      const axios = global.nodemodule["axios"];
+			var link = [], msg = "", num = 0, numb = 0;
+      var imgthumnail = []
+			var results = await youtube.searchVideos(keywordSearch, 6);
+			for (let value of results) {
+				if (typeof value.id == 'undefined') return;
+				link.push(value.id);
+        var idd = value.id;
+let folderthumnail = __dirname + `/cache/${numb+=1}.png`;
+
+let linkthumnail = `https://img.youtube.com/vi/${value.id}/hqdefault.jpg`;
+
+let getthumnail = (await axios.get(`${linkthumnail}`, { responseType: 'arraybuffer' })).data;
+  
+  
+
+        ////////////////////
+let datab = (await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${value.id}&key=${keyapi}`)).data;
+  let gettime = datab.items[0].contentDetails.duration;
+  let time = (gettime.slice(2));
+        ///////////////////
+        let datac = (await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${value.id}&key=${keyapi}`)).data;
+  let channel = datac.items[0].snippet.channelTitle;
+        
+  fs.writeFileSync(folderthumnail, Buffer.from(getthumnail, 'utf-8'));
+  
+  imgthumnail.push(fs.createReadStream(__dirname + `/cache/${numb}.png`));
+        /////=//////////////
+				msg += (`${num+=1}. ${value.title}\nTime: ${time}\nChannel: ${channel}\n-----------------------\n`);
+      }
+  
+      var body = `There are ${link.length} results matching your search term: 
+
+${msg}\nPlease reply a number to convert this to video`
+return api.sendMessage({attachment: imgthumnail, body: body}, event.threadID,(error, info) => global.client.handleReply.push({ 
+  name: this.config.name, 
+  messageID: info.messageID, 
+  author: event.senderID, 
+  link }),
+  event.messageID);
+		}
+	}
+  for(let ii = 1; ii < 7 ; ii++) {
+  unlinkSync(__dirname + `/cache/${ii}.png`)}
+  
+  
+  
+  
+    }

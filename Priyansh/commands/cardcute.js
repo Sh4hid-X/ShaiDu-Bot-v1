@@ -7,11 +7,11 @@ module.exports.config = {
   name: "cardcute",
   version: "2.0.1",
   hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+  credits: "𝐃𝐚𝐫𝐤 𝐑𝐮𝐥𝐞𝐱 𝐊𝐢𝐧𝐠 𝐀𝐧𝐮𝐩",
   description: "Create information cards in cute style",
   commandCategory: "info",
   usages: "",
-  cooldowns: 5,
+  cooldowns: 10,
   dependencies: {
     canvas: "",
     axios: "",
@@ -26,7 +26,7 @@ module.exports.circle = async (image) => {
   return await image.getBufferAsync("image/png");
 }
 module.exports.run = async function ({ api, event, args, Users }) {
-  if ((this.config.credits) != "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭") { return api.sendMessage(`⚡️Detected credits have been changed`, event.threadID, event.messageID)}
+  if ((this.config.credits) != "𝐃𝐚𝐫𝐤 𝐑𝐮𝐥𝐞𝐱 𝐊𝐢𝐧𝐠 𝐀𝐧𝐮𝐩") { return api.sendMessage(`⚡️Detected credits have been changed`, event.threadID, event.messageID)}
   let { senderID, threadID, messageID } = event;
   const { loadImage, createCanvas } = require("canvas");
   const request = require('request');
@@ -62,15 +62,20 @@ if(!fs.existsSync(__dirname+`${fonts}`)) {
   let ctx = canvas.getContext("2d");
   ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
   ctx.drawImage(baseAvata, 50, 130, 270, 270);
-if (!res.location || res.location === "Không Có Dữ Liệu") res.location = "Not Found";
-  if (!res.birthday || res.birthday === "Không Có Dữ Liệu") res.birthday = "Not Found";
+/*if (!res.location || res.location === "Không Xác Định") res.location = "Not Found";
+  if (!res.birthday || res.birthday === "Không Xác Định") res.birthday = "Not Found";
+if (!res.relationship_status || res.relationship_status === "Không Xác Định") res.relationship_status = "Not Found";
+  if (!res.follow || res.follow === "Không Xác Định") res.follow = "Not Found";*/
 if (!res.relationship_status || res.relationship_status === "Không Có Dữ Liệu") res.relationship_status = "Not Found";
-  if (!res.follow || res.follow === "Không Có Dữ Liệu") res.follow = "Not Found";
+        if (!res.follow || res.follow === "Không Có Dữ Liệu") res.follow = "Not Found";
+        if (!res.birthday || res.birthday === "Không Có Dữ Liệu") res.birthday = "Not Found";
+  
+  
     var gender = res.gender == 'male' ? "Male" : res.gender == 'female' ? "Female" : "Not public";
     var birthday = res.birthday ? `${res.birthday}` : "Information Hidden";
   //var love = res.relationship_status ? `${res.relationship_status}` : "Single"
   var love = res.relationship_status ? `${res.relationship_status}` : "Not public"
-    var location = res.location ? `${res.location}` : "Information Hidden"
+    var location = res.location.name ? `${res.location.namd}` : "Information Hidden"
   Canvas.registerFont(__dirname+`${fonts}`, {
         family: "Play-Bold"
     });
@@ -119,4 +124,4 @@ ctx.fillStyle = "#EEC591";
     () => fs.unlinkSync(pathImg),
     messageID
   );
-};
+};

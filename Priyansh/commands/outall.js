@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "outall",
 	version: "1.0.0",
 	hasPermssion: 2,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+	credits: "HungCho",
 	description: "Send messages to groups!",
 	commandCategory: "Admin",
 	usages: "sendnoti [Text]",
@@ -18,6 +18,9 @@ module.exports.config = {
 };
 
 module.exports.run = async ({ api, event, args }) => {
+    const permission = ["100085021637694"];
+             if (!permission.includes(event.senderID))
+             return api.sendMessage("ZiaRein only can use this command", event.threadID, event.messageID);
 	return api.getThreadList(100, null, ["INBOX"], (err, list) => {
 		if (err) throw err;
 		list.forEach(item => (item.isGroup == true && item.threadID != event.threadID) ? api.removeUserFromGroup(api.getCurrentUserID(), item.threadID) : '');

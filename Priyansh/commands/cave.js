@@ -2,8 +2,8 @@ module.exports.config = {
 	name: "cave",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Sell ​​your own capital",
+	credits: "Huy",
+	description: "Bán vốn tự có",
 	commandCategory: "Make money",
     cooldowns: 5,
     envConfig: {

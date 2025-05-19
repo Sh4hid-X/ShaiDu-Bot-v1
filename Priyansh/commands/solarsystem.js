@@ -3,7 +3,7 @@ module.exports.config = {
 	name: "solarsystem",
     version: "1.1.8",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭", 
+	credits: "JRT fix by Jukie~~", 
 	description: "",
 	commandCategory: "News",
 	usages: "",
@@ -91,7 +91,7 @@ module.exports.run = async ({ api, event, handleReply }) => {
                 "\n9. Neptune" +
                 "\n10. The Moon" +
                 "\n\nReply to the message by number to see more about the planets around us❤"
-            ,attachment: fs.createReadStream(__dirname + `/noprefix/solar.gif`)}, event.threadID, (error, info) => {
+            ,attachment: fs.createReadStream(__dirname + `/noprefix/ss.gif`)}, event.threadID, (error, info) => {
         global.client.handleReply.push({
             type: "choosee",
             name: this.config.name,

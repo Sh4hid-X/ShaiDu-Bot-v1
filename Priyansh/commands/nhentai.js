@@ -2,18 +2,17 @@ module.exports.config = {
     name: "nhentai",
     version: "1.0.2",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-    description: "Search for the information story on nhentai",
-    commandCategory: "nsfw",
-    usages: "[ID]",
+    credits: "Zia_Rein",
+    description: "random codes",
+    commandCategory: "nhentai",
+    usages: "send note",
     cooldowns: 5,
     dependencies: {
-        "request": "" 
-    },
+        "request": ""
+    }
 };
 
-module.exports.languages = {
-
+module.exports.languages = { 
     "en": {
         "genarateCode": "The ideal code for you: %1",
         "notFound": "Can't find your hentai manga!",
@@ -44,4 +43,4 @@ module.exports.run = ({ api, event, args, getText }) => {
         if (characters == '') characters = 'Original';
         return api.sendMessage(getText("returnResult", title, artists, characters, tags, args[0]), threadID, messageID);
     });
-}
+          }

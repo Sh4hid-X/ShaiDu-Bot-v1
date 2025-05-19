@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "setmoney",
 	version: "0.0.1",
 	hasPermssion: 2,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+	credits: "Zia Rein",
 	description: "change the amount of yourself or the person tagged",
 	commandCategory: "System",
 	usages: "setmoney [Tag]",
@@ -12,7 +12,7 @@ module.exports.config = {
 			key: 'Tag',
 			prompt: 'Leave blank or tag someone, you can tag more than one person',
 			type: 'Document',
-			example: '@Priyansh'
+			example: '@Mirai-chan'
 		}
 	]
 };
@@ -31,15 +31,15 @@ var mention = Object.keys(event.mentions)[0];
 if (args[1] == 'me'){
 			var s = event.senderID;
 			const moneyme =(await Currencies.getData(event.senderID)).money;
-			api.sendMessage(`✅All your money has been deleted\n💸The amount to be deleted is ${moneyme}.`, event.threadID, async () => await Currencies.decreaseMoney(event.senderID, parseInt(moneyme)));
+			api.sendMessage(`All your money has been deleted\nThe amount to be deleted is ${moneyme}.`, event.threadID, async () => await Currencies.decreaseMoney(event.senderID, parseInt(moneyme)));
 		}	
 		else if (Object.keys(event.mentions).length == 1) {
 var mention = Object.keys(event.mentions)[0];
 		const moneydel = (await Currencies.getData(mention)).money;
-		api.sendMessage(`✅Removed the entire amount of ${event.mentions[mention].replace("@", "")}\n💸The amount to be deleted is ${moneydel}.`, event.threadID, async () => await Currencies.decreaseMoney(mention, parseInt(moneydel)));
+		api.sendMessage(`Removed the entire amount of ${event.mentions[mention].replace("@", "")}\nThe amount to be deleted is ${moneydel}.`, event.threadID, async () => await Currencies.decreaseMoney(mention, parseInt(moneydel)));
 		}
 		
-		else return	api.sendMessage("wrong syntax", event.threadID, event.messageID);
+		else return	api.sendMessage(`Wrong syntax\n\nHow to use?\n${global.config.PREFIX}setmoney <@tag> \nelse\n${global.config.PREFIX}setmoney me <amount>\n\nExample:\n${global.config.PREFIX}setmoney @name 9999\nelse\n${global.config.PREFIX}setmoney me 9999\n\nCreated by: ZiaRein`, event.threadID, event.messageID);
 		}
 			else if (Object.keys(event.mentions).length == 1) {
 			return api.sendMessage({
@@ -58,6 +58,6 @@ var mention = Object.keys(event.mentions)[0];
 
 		}
 else {
-	api.sendMessage("wrong syntax", event.threadID, event.messageID)
+	api.sendMessage(`Wrong syntax\n\nHow to use?\n${global.config.PREFIX}setmoney <@tag> \nelse\n${global.config.PREFIX}setmoney me <amount>\n\nExample:\n${global.config.PREFIX}setmoney @name 9999\nelse\n${global.config.PREFIX}setmoney me 9999\n\nCreated by: ZiaRein`, event.threadID, event.messageID)
 	}
   }

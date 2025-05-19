@@ -1,9 +1,9 @@
 const axios = global.nodemodule["axios"];
 module.exports.config = {
-    name: "game",
+    name: "dhbc",
     version: "1.1.8",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    credits: "D-Jukie", //lỗi credits r ạ
     description: "Chasing catchphrases on your own messenger!!!",
     commandCategory: "Entertainment",
     usages: "[1/2]",

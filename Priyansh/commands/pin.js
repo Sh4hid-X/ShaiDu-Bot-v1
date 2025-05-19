@@ -2,7 +2,7 @@ module.exports.config = {
     name: "imgsearch",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    credits: "D-Jukie",
     description: "Image Search",
     commandCategory: "Công Cụ",
     usages: "[Text]",

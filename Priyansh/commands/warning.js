@@ -2,10 +2,10 @@ module.exports.config = {
 	name: "warning",
 	version: "1.0.0",
 	hasPermssion: 2,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Warning people!",
+	credits: "CatalizCS",
+	description: "Cảnh báo người dùng!",
 	commandCategory: "system",
-	usages: "[ do/all]",
+	usages: "[lý do/all]",
 	cooldowns: 5,
 	dependencies: {
 		"fs-extra": "",
@@ -35,39 +35,39 @@ module.exports.run = async function ({ event, api, args, permssion, Users }) {
 
     switch (args[0]) {
         case "all": {
-            if (permssion != 2) return api.sendMessage(`You are not authorized to use this command!`, threadID, messageID);
+            if (permssion != 2) return api.sendMessage(`Bạn không đủ quyền hạn để có thể sử dụng lệnh này!`, threadID, messageID);
             var listUser = "";
 
             for (const IDUser in warningData) {
                 const name = global.data.userName.get(IDUser) || await Users.getNameUser(IDUser);
-                listUser += `- ${name}: still ${warningData[IDUser].warningLeft} warning times\n`;
+                listUser += `- ${name}: còn ${warningData[IDUser].warningLeft} lần cảnh báo\n`;
             }
-            if (listUser.length == 0) listUser = "Currently no users have been warned";
+            if (listUser.length == 0) listUser = "Hiện tại chưa có người dùng nào bị cảnh cáo";
             return api.sendMessage(listUser, threadID, messageID);
         }
         case "reset": {
             writeFileSync(path, JSON.stringify({}), 'utf-8');
-            return api.sendMessage("Reset all warning list!", threadID, messageID);
+            return api.sendMessage("Đã reset lại toàn bộ list warn!", threadID, messageID);
         }
         default: {
             if (permssion != 2) {
                 const data = warningData[args[0] || mention[0] || senderID];
                 console.log(data);
                 const name = global.data.userName.get(args[0] || mention[0] || senderID) || await Users.getNameUser(args[0] || mention[0] || senderID);
-                if (!data) return api.sendMessage(`Present ${name} without any warning!`, threadID, messageID);
+                if (!data) return api.sendMessage(`Hiện tại ${name} không có bất cứ lời cảnh báo nào!`, threadID, messageID);
                 else {
                     var reason = "";
                     for (const n of data.warningReason) reason += `- ${n}\n`;
-                    return api.sendMessage(`Present ${name} remaining ${data.warningLeft} times of warning:\n\n${reason}`, threadID, messageID);
+                    return api.sendMessage(`Hiện tại ${name} còn lại ${data.warningLeft} lần cảnh cáo:\n\n${reason}`, threadID, messageID);
                 }
             }
             else {
                 try {
-                    if (event.type != "message_reply") return api.sendMessage("You have not replied to the message to be warned.", threadID, messageID);
-                    if (event.messageReply.senderID == api.getCurrentUserID()) return api.sendMessage('The bot account could not be alerted.', threadID, messageID);
-                    if (args.length == 0) return api.sendMessage("You have not entered the reason for the warning!", threadID, messageID);
+                    if (event.type != "message_reply") return api.sendMessage("Bạn chưa reply tin nhắn cần cảnh báo.", threadID, messageID);
+                    if (event.messageReply.senderID == api.getCurrentUserID()) return api.sendMessage('Không thể cảnh báo tới tài khoản bot.', threadID, messageID);
+                    if (args.length == 0) return api.sendMessage("Bạn chưa nhập lý do cảnh báo!", threadID, messageID);
                     var data = warningData[event.messageReply.senderID] || { "warningLeft": 3, "warningReason": [], "banned": false };
-                    if (data.banned) return api.sendMessage("Account on has been banned, It has been warned 3 times!", threadID, messageID);
+                    if (data.banned) return api.sendMessage("Tài khoản trên đã bị ban do đã bị cảnh cáo 3 lần!", threadID, messageID);
                     const name = global.data.userName.get(event.messageReply.senderID) || await Users.getNameUser(event.messageReply.senderID);
                     data.warningLeft -= 1;
                     data.warningReason.push(args.join(" "));
@@ -80,7 +80,7 @@ module.exports.run = async function ({ event, api, args, permssion, Users }) {
                         await Users.setData(event.messageReply.senderID, { data });
                         global.data.userBanned.set(parseInt(event.messageReply.senderID), 1);
                     }
-                    return api.sendMessage(`Warned ${name} with reason: ${args.join(" ")}, ${(data.banned) ? `Because of the warning 3 times, the above account has been banned` : `The above account is also ${data.warningLeft} warning turn!`}`, threadID, messageID);
+                    return api.sendMessage(`Đã cảnh báo ${name} với lý do: ${args.join(" ")}, ${(data.banned) ? `bởi vì đã bị cảnh báo 3 lần nên tài khoản trên đã bị ban` : `tài khoản trên còn ${data.warningLeft} lượt cảnh báo!`}`, threadID, messageID);
                 } catch (e) { return console.log(e) };
             }
         }

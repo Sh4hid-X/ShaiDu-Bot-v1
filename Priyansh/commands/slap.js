@@ -2,7 +2,7 @@ module.exports.config = {
   name: "slap",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+  credits: "Hungcatmoi",
   description: "Slap the friend tag",
   commandCategory: "general",
   usages: "slap [Tag someone you want to slap]",
@@ -17,7 +17,7 @@ module.exports.run = async ({ api, event, args }) => {
     var out = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
   if (!args.join("")) return out("Please tag someone");
   else
-  return axios.get('https://api.waifu.pics/sfw/slap').then(res => {
+  return axios.get('https://api.satou-chan.xyz/api/endpoint/slap').then(res => {
         let getURL = res.data.url;
         let ext = getURL.substring(getURL.lastIndexOf(".") + 1);
         var mention = Object.keys(event.mentions)[0];

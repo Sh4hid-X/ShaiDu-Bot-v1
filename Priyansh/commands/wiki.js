@@ -2,10 +2,10 @@ module.exports.config = {
 	name: "wiki",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Find all the information you need through Wikipedia",
+	credits: "ZiaReinn",
+	description: "wikipedia search",
 	commandCategory: "study",
-	usages: "[en] [information needed search]",
+	usages: "[en] [thông tin cần tìm kiếm]",
 	cooldowns: 1,
 	dependencies: {
         "wikijs": ""
@@ -13,12 +13,8 @@ module.exports.config = {
 }
 
 module.exports.languages = {
-    "vi": {
-        "missingInput": "Nội dung cần tìm kiếm không được để trống!",
-        "returnNotFound": "Không tìm thấy nội dung %1"
-    },
     "en": {
-        "missingInput": "Enter what you need to search for.",
+        "missingInput": `Enter what you need to search\n\nHow to use?\n${global.config.PREFIX}wiki <search>\n\nExample:\n${global.config.PREFIX}wiki japan\n\nCreated by: ZiaRein`,
         "returnNotFound": "Can't find %1"
     }
 }
@@ -34,4 +30,4 @@ module.exports.run = ({ event, args, api, getText }) => {
     if (!content) return api.sendMessage(getText("missingInput"), event.threadID, event.messageID);
     return wiki({ apiUrl: url }).page(content).catch(() => api.sendMessage(getText("returnNotFound", content), event.threadID, event.messageID)).then(page => (typeof page != 'undefined') ? Promise.resolve(page.summary()).then(val => api.sendMessage(val, event.threadID, event.messageID)) : '');
 
-}
+          }

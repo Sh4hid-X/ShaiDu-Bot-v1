@@ -2,9 +2,9 @@ module.exports.config = {
 	name: "work",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Work to earn money!",
-	commandCategory: "Entertainment",
+	credits: "Mirai Team",
+	description: "If you work, you can eat!",
+	commandCategory: "Earn money",
     cooldowns: 5,
     envConfig: {
         cooldownTime: 1200000
@@ -34,21 +34,21 @@ module.exports.languages = {
     "en": {
         "cooldown": "You have worked today, to avoid exhaustion please come back after: %1 minute(s) %2 second(s).",
         "rewarded": "You did the job: %1 and received: %2$.",
-        "job1": "Scammer",
-        "job2": "Mechanic",
-        "job3": "Programming",
-        "job4": "Hacker",
-        "job5": "Chef",
-        "job6": "Construction",
-        "job7": "Fake taxi",
-        "job8": "Gangbang someone",
-        "job9": "Plumber ( ͡° ͜ʖ ͡°)",
-        "job10": "Streamer",
-        "job11": "Online seller",
-        "job12": "Housewife",
-        "job13": 'Sell "flower"',
-        "job14": "find jav/hentai code for Scottz",
-        "job15": "Tiktoker"
+        "job1": "sell lottery tickets",
+        "job2": "repair car",
+        "job3": "programming",
+        "job4": "hack Facebook",
+        "job5": "chef",
+        "job6": "mason",
+        "job7": "fake taxi",
+        "job8": "gangbang someone",
+        "job9": "plumber ( ͡° ͜ʖ ͡°)",
+        "job10": "streamer",
+        "job11": "online seller",
+        "job12": "housewife",
+        "job13": 'sell "flower"',
+        "job14": "find jav/hentai code for SpermLord",
+        "job15": "play Yasuo and carry your team"
     }
 }
 
@@ -82,7 +82,7 @@ module.exports.run = async ({ event, api, Currencies, getText }) => {
             getText("job14"),
             getText("job15")
         ];
-        const amount = Math.floor(Math.random() * 900);
+        const amount = Math.floor(Math.random() * 600);
         return api.sendMessage(getText("rewarded", job[Math.floor(Math.random() * job.length)], amount), threadID, async () => {
             await Currencies.increaseMoney(senderID, parseInt(amount));
             data.workTime = Date.now();
@@ -90,4 +90,4 @@ module.exports.run = async ({ event, api, Currencies, getText }) => {
             return;
         }, messageID);
     }     
-  }
+}

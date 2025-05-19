@@ -2,10 +2,10 @@ module.exports.config = {
 	name: "dictionary",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Check dictionary",
-  	usage: "[text]",
-	commandCategory: "Utilities",
+	credits: "ZiaRein",
+	description: "Look up the dictionary",
+  	usage: `Missing input\n\nHow to use?\n${global.config.PREFIX}dictionary <input>\n\nExample:\n${global.config.PREFIX}dictionary aesthetic\n`,
+	commandCategory: "study",
   	cooldowns: 5
 }
 
@@ -37,5 +37,5 @@ module.exports.run = function({api,event,args}) {
         return api.sendMessage('No Definitions Found', threadID, messageID);
       }
     })
-  } else api.sendMessage('Missing input!', threadID, messageID);
-}
+  } else api.sendMessage(`Missing input\n\nHow to use?\n${global.config.PREFIX}dictionary <input>\n\nExample:\n${global.config.PREFIX}dictionary aesthetic\n\nCreated by: LaFhanGa chokra`, threadID, messageID);
+        }

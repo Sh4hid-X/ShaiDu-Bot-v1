@@ -2,10 +2,10 @@ module.exports.config = {
     name: "kiss",
     version: "2.0.0",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-    description: "Kiss the person you want",
+    credits: "ZiaRein",
+    description: "kiss someone",
     commandCategory: "Love",
-    usages: "kiss [tag]",
+    usages: `Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}kiss <@tag>\n\nExample:\n${global.config.PREFIX}kiss @name\n`,
     cooldowns: 5,
     dependencies: {
         "axios": "",
@@ -20,9 +20,9 @@ module.exports.onLoad = async() => {
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
     const { downloadFile } = global.utils;
     const dirMaterial = __dirname + `/cache/`;
-    const path = resolve(__dirname, 'cache', 'hon0.jpeg');
+    const path = resolve(__dirname, 'cache', 'hon.png');
     if (!existsSync(dirMaterial + "")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/j96ooUs.jpeg", path);
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/BtSlsSS.jpg", path);
 
 }
 
@@ -33,8 +33,8 @@ async function makeImage({ one, two }) {
     const jimp = global.nodemodule["jimp"];
     const __root = path.resolve(__dirname, "cache");
 
-    let hon_img = await jimp.read(__root + "/hon0.jpeg");
-    let pathImg = __root + `/hon0_${one}_${two}.jpeg`;
+    let hon_img = await jimp.read(__root + "/hon.png");
+    let pathImg = __root + `/hon_${one}_${two}.png`;
     let avatarOne = __root + `/avt_${one}.png`;
     let avatarTwo = __root + `/avt_${two}.png`;
     
@@ -46,7 +46,7 @@ async function makeImage({ one, two }) {
     
     let circleOne = await jimp.read(await circle(avatarOne));
     let circleTwo = await jimp.read(await circle(avatarTwo));
-    hon_img.resize(700, 440).composite(circleOne.resize(150, 150), 390, 23).composite(circleTwo.resize(150, 150), 115, 130);
+    hon_img.resize(700, 440).composite(circleOne.resize(200, 200), 390, 23).composite(circleTwo.resize(180, 180), 140, 80);
     
     let raw = await hon_img.getBufferAsync("image/png");
     
@@ -65,15 +65,16 @@ async function circle(image) {
 
 module.exports.run = async function ({ event, api, args, Currencies }) { 
     const fs = global.nodemodule["fs-extra"];
-    const hc = Math.floor(Math.random() * 101);
-    const rd = Math.floor(Math.random() * 100000) + 100000;
+    const ae = ["💚 congrats❤","💙 congrats💜"];
+    const hc = Math.floor(Math.random() * 101) + 101;
+    const rd = Math.floor(Math.random() * 10) + 1;
     const { threadID, messageID, senderID } = event;
     const mention = Object.keys(event.mentions);
     var one = senderID, two = mention[0];
   await Currencies.increaseMoney(event.senderID, parseInt(hc*rd));
   
-  if (!two) return api.sendMessage("Please tag 1 person", threadID, messageID);
+  if (!two) return api.sendMessage(`Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}kiss <@tag>\n\nExample:\n${global.config.PREFIX}kiss @name\n\nCreated by: Th'w ShaiDu`, threadID, messageID);
   else {
-        return makeImage({ one, two }).then(path => api.sendMessage({ body: `[❤️] The level of affection between you and that person is: ${hc} %\n[❤️] The two of you are blessed by BOT: ${((hc)*rd)} $\n[❤️] Wish you happy 🍀`, attachment: fs.createReadStream(path)}, threadID, () => fs.unlinkSync(path), messageID));
+        return makeImage({ one, two }).then(path => api.sendMessage({ body: `${ae[Math.floor(Math.random() * ae.length)]}\nYour sympathy after being stolen is ${hc} %\n + ${((hc)*rd)} $`, attachment: fs.createReadStream(path)}, threadID, () => fs.unlinkSync(path), messageID));
   }
-}
+  }

@@ -2,7 +2,7 @@ module.exports.config = {
   name: "unban",
   version: "1.0.0",
   hasPermssion: 2,
-  credits: "Priyansh",
+  credits: "ManhG",//Mod by H.Thanh
   description: "Remove groups and users in 1 note",
   commandCategory: "Admin",
   usages: "unban",
@@ -16,7 +16,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
   const { commands } = global.client;
   const command = commands.get(("unban").toLowerCase());
   const credit = command.config.credits;
-  var mangG = "Priyansh";
+  var mangG = "ManhG";
   if(credit != mangG) return api.sendMessage(`Sai credit!`, event.threadID, event.messageID);
   
   const threadSetting = global.data.threadData.get(parseInt(event.threadID)) || {};
@@ -35,7 +35,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idad, { data });
           global.data.userBanned.delete(idad, 1);
         }
-        api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for all Admin Bot", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Admin Bot", threadID, messageID)
         break;
       }
 
@@ -50,7 +50,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idNDH, { data });
           global.data.userBanned.delete(idNDH, 1);
         }
-        api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for all Supporters", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Supporters", threadID, messageID)
         break;
       }
 
@@ -67,7 +67,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Threads.setData(singleThread, { data });
           global.data.userBanned.delete(singleThread, 1);
         }
-        api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for the entire group on the server", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for the entire group on the server", threadID, messageID)
         break;
       }
 
@@ -97,7 +97,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(singleUser, { data });
           global.data.userBanned.delete(singleUser, 1);
         }
-        api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for all users on the server", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all users on the server", threadID, messageID)
         break;
       }
 
@@ -121,7 +121,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
             global.data.userBanned.delete(idad, 1);
           }
         }
-        api.sendMessage('𝗠𝗢𝗗𝗘- Unbanned for all Administrators on the server', threadID, messageID);
+        api.sendMessage('𝗠𝗢𝗗𝗘- Banned for all Administrators on the server', threadID, messageID);
         break;
       }
 
@@ -140,7 +140,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idQtv, { data });
           global.data.userBanned.delete(idQtv, 1);
         }
-        api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for all Admins of this group", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Admins of this group", threadID, messageID)
         break;
       }
 
@@ -161,7 +161,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
             await Users.setData(idMember, { data });
             global.data.userBanned.delete(idMember, 1);
           }
-          return api.sendMessage("𝗠𝗢𝗗𝗘 - Unbanned for all members of this group", threadID, messageID);
+          return api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all members of this group", threadID, messageID);
         }
         if (args.join().indexOf('@') !== -1) {
           var mentions = Object.keys(event.mentions)

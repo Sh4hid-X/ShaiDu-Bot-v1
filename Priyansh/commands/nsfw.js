@@ -2,18 +2,13 @@ module.exports.config = {
 	name: "nsfw",
 	version: "1.0.0",
 	hasPermssion: 1,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Turn off the right to use NSFW commands",
-	commandCategory: "System",
+	credits: "𝚉𝚒𝚊 𝚁𝚎𝚒𝚗",
+	description: "restriction",
+	commandCategory: "system",
 	cooldowns: 5,
 };
 
 module.exports.languages = {
-    "vi": {
-        "returnSuccessEnable": "Đã cho phép thành viên sử dụng lệnh NSFW",
-        "returnSuccessDisable": "Đã cấm thành viên sử dụng lệnh NSFW",
-        "error": "Đã có lỗi xảy ra, vui lòng thử lại sau"
-    },
     "en": {
         "returnSuccessEnable": "Success enable NSFW command for this group",
         "returnSuccessDisable": "Success disable NSFW command for this group",
@@ -40,4 +35,4 @@ module.exports.run = async function ({ event, api, Threads, getText }) {
         await setData(threadID, { data });
         return api.sendMessage((type == "on") ? getText("returnSuccessEnable") : getText("returnSuccessDisable"), threadID, messageID);
     } catch (e) { console.log(e); return api.sendMessage(getText("error"), threadID, messageID) }
-}
+      }

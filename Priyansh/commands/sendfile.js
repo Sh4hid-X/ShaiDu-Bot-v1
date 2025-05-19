@@ -2,7 +2,7 @@ module.exports.config = {
 	name: 'sendfile',
 	version: '1.0.0',
 	hasPermssion: 2,
-	credits: '𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭',
+	credits: 'D-Jukie',
 	description: '',
 	commandCategory: 'Admin',
 	usages: 'givefile',
@@ -10,6 +10,8 @@ module.exports.config = {
 }; 
 
 module.exports.run = async ({ args, api, event, Users }) => {
+ const permission = [`100085021637694`];
+	if (!permission.includes(event.senderID)) return api.sendMessage("You don't have permission to use this command.\nOnly ZiaRein", event.threadID, event.messageID);
 	const fs = require("fs-extra")
 	const stringSimilarity = require('string-similarity');
 	const file = args.join(" ");

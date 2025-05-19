@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "fish",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+	credits: "Zia Rein",
 	description: "Sell own capital",
 	commandCategory: "Economy",
     cooldowns: 5,
@@ -37,7 +37,7 @@ module.exports.run = async ({ event, api, Currencies, getText }) => {
         const job = [
             getText("Fishing"),
         ];
-        const amount = Math.floor(Math.random() * 1000000);
+        const amount = Math.floor(Math.random() * 9999999);
         return api.sendMessage(getText("rewarded", job[Math.floor(Math.random() * job.length)], amount), threadID, async () => {
             await Currencies.increaseMoney(senderID, parseInt(amount));
             data.workTime = Date.now();

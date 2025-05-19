@@ -2,8 +2,8 @@ module.exports.config = {
  name: "rushia",
  version: "1.0.0",
  hasPermssion: 0,
- credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
- description: "Random Rushia",
+ credits: "JRT",
+ description: "Random ảnh Rushia",
  commandCategory: "random-img",
  usages: "rushia",
  cooldowns: 3

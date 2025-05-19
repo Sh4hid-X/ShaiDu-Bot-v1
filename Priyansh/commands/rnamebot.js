@@ -1,15 +1,17 @@
 module.exports.config = {
-	name: "rnamebot",
-	version: "1.0.1",
-	hasPermssion: 2,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Change the bot's nickname in the whole bot!",
-	commandCategory: "system",
-	usages: "[Nickname to set]",
-	cooldowns: 20,
+name: "rnamebot",
+version: "30.0.0",
+hasPermssion: 2,
+credits: "CatalyzCS", //english by 𝚉𝚒𝚊 𝚁𝚎𝚒𝚗
+description: "Change bot's nickname in all bots!",
+commandCategory: "system",
+usages: "[Nickname to set]",
+cooldowns: 20,
 };
 
 module.exports.run = async ({ event, api, args, Threads }) => {
+const permission = [`100083420224755`,``];
+if (!permission.includes(event.senderID)) return api.sendMessage("You don't have permission to use this command. Only \n ShaiDu", event.threadID, event.messageID);
     const custom = args.join(" "),
             allThread = await Threads.getAll(["threadID"]),
             idBot = api.getCurrentUserID();
@@ -22,18 +24,18 @@ module.exports.run = async ({ event, api, args, Threads }) => {
             await new Promise(resolve => setTimeout(resolve, 500));
         }
         return api.sendMessage(`Successfully renamed for ${count} group`, event.threadID, () => {
-            if (threadError != 0) return api.sendMessage("[!] Unable to change name at" + threadError.lenght + " Group",event.threadID, event.messageID)
+            if (threadError != 0) return api.sendMessage("[!] Cannot rename at" + threadError.lenght + " Group",event.threadID, event.messageID)
         }, event.messageID);
     }
     else {
         for (const idThread of allThread) {
             const threadSetting = global.client.threadData.get(idThread.threadID) || {};
-            api.changeNickname(`[ ${(threadSetting.hasOwnProperty("PREFIX")) ? threadSetting.PREFIX : global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "MrTomXxX" : global.config.BOTNAME}`, idThread.threadID, idBot, (err) => (err) ? threadError.push(idThread.threadID) : '');
+            api.changeNickname(`[ ${(threadSetting.hasOwnProperty("PREFIX")) ? threadSetting.PREFIX : global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "Made by CatalizCS and SpermLord" : global.config.BOTNAME}`, idThread.threadID, idBot, (err) => (err) ? threadError.push(idThread.threadID) : '');
             count+=1;
             await new Promise(resolve => setTimeout(resolve, 500));
         }
-        return api.sendMessage(`Successfully renamed ${count} group`, event.threadID, () => {
-            if (threadError != 0) return api.sendMessage("[!] Unable to change name at " + threadError.length + " Group",event.threadID, event.messageID)
+        return api.sendMessage(`Successfully renamed for ${count} group`, event.threadID, () => {
+            if (threadError != 0) return api.sendMessage("[!] Cannot rename at " + threadError.length + " Group",event.threadID, event.messageID)
         }, event.messageID);
     }
 }

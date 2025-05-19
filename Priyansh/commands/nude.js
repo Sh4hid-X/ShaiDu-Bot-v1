@@ -2,9 +2,9 @@ module.exports.config = {
   name: "nude",
   version: "1.0.1",
   hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+  credits: "Khánh Milo",
   description: "",
-  commandCategory: "18+",
+  commandCategory: "Hình ảnh",
   usages: "",
     cooldowns: 5,
     dependencies: {"fs-extra": "","axios": ""}

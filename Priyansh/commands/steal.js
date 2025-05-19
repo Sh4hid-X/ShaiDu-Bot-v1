@@ -2,10 +2,10 @@ module.exports.config = {
 	name: "steal",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "steal money",
+	credits: "ZiaRein",
+	description: "thief",
 	commandCategory: "economy",
-	usages: "",
+	usages: "send message",
 	cooldowns: 5
 };
 
@@ -38,4 +38,4 @@ module.exports.run = async function({ api, event, Users, Currencies }) {
             }), event.messageID);
         
     }
-                                                  }
+          }

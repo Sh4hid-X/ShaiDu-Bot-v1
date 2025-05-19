@@ -2,10 +2,10 @@
   name: "covid",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-  description: "View covid19 information",
-  commandCategory: "Utilities",
-  usages: "[Name of the country]",
+  credits: "Candy",
+  description: "update for covid",
+  commandCategory: "news",
+  usages: `Search cannot be left blank\n\nHow to use?\n${global.config.PREFIX}covid <country>\n\nExample:\n${global.config.PREFIX}covid japan\n`,
   cooldowns: 5
 };
 
@@ -20,7 +20,7 @@ module.exports.run = async (
   const request = require('request');
   const fs = require("fs");
   var tip = args.join(" ");
-  if (!tip) return api.sendMessage(`Enter a country 🌎 name`, event.threadID, event.messageID);
+  if (!tip) return api.sendMessage(`Search cannot be left blank\n\nHow to use?\n${global.config.PREFIX}covid <country>\n\nExample:\n${global.config.PREFIX}covid japan\n\nCreated by: LaFhanGa chokra`, event.threadID, event.messageID);
   else
   {
     axios.get(`https://disease.sh/v3/covid-19/countries/${encodeURIComponent(tip)}`).then(res =>
@@ -36,7 +36,7 @@ module.exports.run = async (
       {
         api.sendMessage(
         {
-          body: `🌎Country : ${quocgia}\n\n🦠Infection: ${nhiem}\n☠️Death: ${chet} \n❤️Treatment : ${dieutri}\n📝Population : ${danso}\n🔎Continent: ${chauluc}\n`,
+          body: `𝗖𝗼𝘂𝗻𝘁𝗿𝘆: ${quocgia}\n\n𝗜𝗻𝗳𝗲𝗰𝘁𝗶𝗼𝗻: ${nhiem}\n𝗗𝗲𝗮𝘁𝗵: ${chet} \n𝗧𝗿𝗲𝗮𝘁𝗺𝗲𝗻𝘁: ${dieutri}\n𝗣𝗼𝗽𝘂𝗹𝗮𝘁𝗶𝗼𝗻: ${danso}\n𝗖𝗼𝗻𝘁𝗶𝗻𝗲𝗻𝘁: ${chauluc}`,
           attachment: fs.createReadStream(__dirname + `/cache/covidtk.png`)
         }, event.threadID, () => fs.unlinkSync(__dirname + `/cache/covidtk.png`), event.messageID);
       };

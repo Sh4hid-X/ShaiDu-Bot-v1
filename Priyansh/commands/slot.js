@@ -2,25 +2,18 @@ module.exports.config = {
     name: "slot",
     version: "1.0.1",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-    description: "fair play",
+    credits: "ZiaRein",
+    description: "coin throwing",
     commandCategory: "game-sp",
-    usages: "[number coin required]",
+    usages: `Missing input\n\nHow to use?\n${global.config.PREFIX}slot <money>\n\nExample:\n${global.config.PREFIX}slot 100\n`,
     cooldowns: 5,
 };
 
 module.exports.languages = {
-    "vi": {
-        "missingInput": "[ SLOT ] Số tiền đặt cược không được để trống hoặc là số âm",
-        "moneyBetNotEnough": "[ SLOT ] Số tiền bạn đặt lớn hơn hoặc bằng số dư của bạn!",
-        "limitBet": "[ SLOT ] Số coin đặt không được dưới 50$!",
-        "returnWin": "🎰 %1 | %2 | %3 🎰\nBạn đã thắng với %4$",
-        "returnLose": "🎰 %1 | %2 | %3 🎰\nBạn đã thua và mất %4$"
-    },
     "en": {
-        "missingInput": "[ SLOT ] The bet money must not be blank or a negative number",
-        "moneyBetNotEnough": "[ SLOT ] The money you betted is bigger than your balance!",
-        "limitBet": "[ SLOT ] Your bet is too low, the minimum is 50$",
+        "missingInput": `Missing input\n\nHow to use?\n${global.config.PREFIX}slot <money>\n\nExample:\n${global.config.PREFIX}slot 50\n\nCreated by: ZiaRein`,
+        "moneyBetNotEnough": `You don't have enough money to check your balance please use ${global.config.PREFIX}money`,
+        "limitBet": `Your bet is too low, the minimum is 50$\n\nExample:\n${global.config.PREFIX}slot 50`,
         "returnWin": "🎰 %1 | %2 | %3 🎰\nYou won with %4$",
         "returnLose": "🎰 %1 | %2 | %3 🎰\nYou lost and loss %4$"
     }

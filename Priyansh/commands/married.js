@@ -2,7 +2,7 @@ module.exports.config = {
     name: "married",
     version: "3.1.1",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    credits: "John Lester",
     description: "married",
     commandCategory: "img",
     usages: "[@mention]",
@@ -22,7 +22,7 @@ module.exports.onLoad = async() => {
     const dirMaterial = __dirname + `/cache/canvas/`;
     const path = resolve(__dirname, 'cache/canvas', 'married.png');
     if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/txnRTKf.png", path);
+    if (!existsSync(path)) await downloadFile("https://i.ibb.co/PjWvsBr/13bb9bb05e53ee24893940892b411ad2.png", path);
 }
 
 async function makeImage({ one, two }) {
@@ -45,7 +45,7 @@ async function makeImage({ one, two }) {
     
     let circleOne = await jimp.read(await circle(avatarOne));
     let circleTwo = await jimp.read(await circle(avatarTwo));
-  batgiam_img.composite(circleOne.resize(170, 170), 1520, 210).composite(circleTwo.resize(170, 170), 980, 300);
+    batgiam_img.composite(circleOne.resize(150, 150), 280, 45).composite(circleTwo.resize(150, 150), 130, 90);
     
     let raw = await batgiam_img.getBufferAsync("image/png");
     

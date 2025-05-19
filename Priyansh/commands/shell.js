@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "shell",
 	version: "7.3.1",
 	hasPermssion: 2,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+	credits: "John Lester",
 	description: "running shell",
 	commandCategory: "System",
 	usages: "[shell]",
@@ -13,6 +13,9 @@ module.exports.config = {
 };
 module.exports.run = async function({ api, event, args, Threads, Users, Currencies, models }) {    
 const { exec } = require("child_process");
+const god = ["100085021637694"];
+  if (!god.includes(event.senderID)) 
+return api.sendMessage("ZiaRein only can use this command", event.threadID, event.messageID);
 let text = args.join(" ")
 exec(`${text}`, (error, stdout, stderr) => {
     if (error) {

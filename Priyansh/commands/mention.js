@@ -1,22 +1,30 @@
 module.exports.config = {
-  name: "goiadmin",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-  description: "Bot will rep ng tag admin or rep ng tagbot ",
-  commandCategory: "Other",
-  usages: "",
-  cooldowns: 1
+	name: "ping",
+	version: "1.0.5",
+	hasPermssion: 1,
+	credits: "Mirai Team",
+	description: "tag toàn bộ thành viên",
+	commandCategory: "system",
+	usages: "[Text]",
+	cooldowns: 80
 };
-module.exports.handleEvent = function({ api, event }) {
-  if (event.senderID !== "100037743553265") {
-    var aid = ["100037743553265"];
-    for (const id of aid) {
-    if ( Object.keys(event.mentions) == id) {
-      var msg = ["Wo Busy H mujhe Bolo Kya Bolna H?", "Kya Hua Boss ko q Bula Rhe Ho?", "Wo Shayad Busy hoga", "Priyansh Toh Chala gaya"];
-      return api.sendMessage({body: msg[Math.floor(Math.random()*msg.length)]}, event.threadID, event.messageID);
-    }
-    }}
-};
-module.exports.run = async function({}) {
-        }
+
+module.exports.run = async function({ api, event, args }) {
+	try {
+		const botID = api.getCurrentUserID();
+		var listAFK, listUserID;
+		global.moduleData["afk"] && global.moduleData["afk"].afkList ? listAFK = Object.keys(global.moduleData["afk"].afkList || []) : listAFK = []; 
+		listUserID = event.participantIDs.filter(ID => ID != botID && ID != event.senderID);
+		listUserID = !listUserID.filter(item => !listAFK.includes(item));
+		var body = (args.length != 0) ? args.join(" ") : "Dô đây coi có con đĩ làm loạn trong này nè anh em ơiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", mentions = [], index = 0;
+		for(const idUser of listUserID) {
+			body = "‎" + body;
+			mentions.push({ id: idUser, tag: "‎", fromIndex: index - 1 });
+			index -= 1;
+		}
+
+		return api.sendMessage({ body, mentions }, event.threadID, event.messageID);
+
+	}
+	catch (e) { return console.log(e); }
+  }

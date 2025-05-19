@@ -2,8 +2,8 @@ module.exports.config = {
   name: "setall",
   version: "1.0.0",
   hasPermssion: 2,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-  description: "Set nicknames all members in Group",
+  credits: "Khánh Milo",
+  description: "Set nicknames all tv",
   commandCategory: "Box Chat",
   usages: "[name]",
   cooldowns: 3

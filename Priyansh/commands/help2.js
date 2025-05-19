@@ -1,20 +1,26 @@
- module.exports.config = {
+module.exports.config = {
 	name: "help2",
 	version: "1.0.2",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Beginner's Guide",
-	commandCategory: "system",
-	usages: "[Tên module]",
-	cooldowns: 1,
+	credits: "PetterSever",
+	description: "Beginner's Guide To All Bot Commands",
+	commandCategory: "System",
+	usages: "[ listbox ]",
+	cooldowns: 7,
 	envConfig: {
 		autoUnsend: true,
-		delayUnsend: 300
+		delayUnsend: 500
 	}
 };
 
 module.exports.languages = {
-	
+	//"vi": {
+	//	"moduleInfo": "「 %1 」\n%2\n\n❯ Cách sử dụng: %3\n❯ Thuộc nhóm: %4\n❯ Thời gian chờ: %5 giây(s)\n❯ Quyền hạn: %6\n\n» Module code by %7 «",
+	//	"helpList": '[ Hiện tại đang có %1 lệnh có thể sử dụng trên bot này, Sử dụng: "%2help nameCommand" để xem chi tiết cách sử dụng! ]"',
+	//	"user": "Người dùng",
+  //      "adminGroup": "Quản trị viên nhóm",
+  //      "adminBot": "Quản trị viên bot"
+//	},
 	"en": {
 		"moduleInfo": "「 %1 」\n%2\n\n❯ Usage: %3\n❯ Category: %4\n❯ Waiting time: %5 seconds(s)\n❯ Permission: %6\n\n» Module code by %7 «",
 		"helpList": '[ There are %1 commands on this bot, Use: "%2help nameCommand" to know how to use! ]',
@@ -54,7 +60,7 @@ module.exports. run = function({ api, event, args, getText }) {
     let msg = "";
     
     for (var [name, value] of (commands)) {
-      name += ``;
+      name += `🍒`;
       arrayInfo.push(name);
     }
 
@@ -64,10 +70,10 @@ module.exports. run = function({ api, event, args, getText }) {
     i = startSlice;
     const returnArray = arrayInfo.slice(startSlice, startSlice + numberOfOnePage);
     
-    for (let item of returnArray) msg += `「 ${++i} 」${prefix}${item}\n`;
+    for (let item of returnArray) msg += `『 ${++i} 』${prefix}${item}\n`;
     
     
-    const siu = `Command list 📄\nMade by Prîyánsh Rajput 🥀\nFor More Information type /help (command name) ✨`;
+    const siu = `╔━━❖❖💠❖❖━━╗\n  𝐀𝐥𝐥 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐋𝐢𝐬𝐭\n╚━━❖❖💠❖❖━━╝`;
     
  const text = `\nPage (${page}/${Math.ceil(arrayInfo.length/numberOfOnePage)})`;
  

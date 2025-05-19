@@ -1,8 +1,8 @@
 module.exports.config = {
-    name: "hand",
+    name: "namtay",
     version: "2.0.0",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    credits: "ProCoderMew",
     description: "",
     commandCategory: "Love",
     usages: "[tag]",

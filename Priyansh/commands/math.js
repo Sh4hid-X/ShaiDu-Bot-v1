@@ -2,8 +2,8 @@ module.exports.config = {
 	name: "math",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Education",
+	credits: "ZiaRein",
+	description: "Calculator",
 	commandCategory: "study",
 	usages: "math 1 + 2",
 	cooldowns: 5,
@@ -54,7 +54,7 @@ module.exports.run = async function ({ api, event, args }) {
 	var out = (msg) => api.sendMessage(msg, threadID, messageID);
 	var text = [], key = global.configModule.math.WOLFRAM;
 	var content = (event.type == 'message_reply') ? event.messageReply.body : args.join(" ");
-	if (!content) return out("Please enter the calculation");
+	if (!content) return out(`Missing input\n\nHow to use?\n${global.config.PREFIX}math <input>\n\nExample:\n${global.config.PREFIX}math 1 + 1\n\nCreated by: ZiaRein`);
 	else if (content.indexOf("-p") == 0) {
 		try {
 			content = "primitive " + content.slice(3, content.length);
@@ -118,4 +118,4 @@ module.exports.run = async function ({ api, event, args }) {
 			out(`${e}`);
 		}
 	}
-}
+      }

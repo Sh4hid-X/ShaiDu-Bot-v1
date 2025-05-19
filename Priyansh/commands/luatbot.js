@@ -3,9 +3,9 @@ module.exports.config = {
 	name: "RuleBot",
     version: "1.0.1",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭", 
+	credits: "Bảo", 
 	description: "no prefix",
-	commandCategory: "group",
+	commandCategory: "Không cần dấu lệnh",
 	usages: "RuleBot",
     cooldowns: 5, 
 };

@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "automention",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+	credits: "to the owner",
 	description: "automent [mentioned]",
 	commandCategory: "other",
 	cooldowns: 5

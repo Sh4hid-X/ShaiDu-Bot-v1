@@ -1,14 +1,13 @@
 module.exports.config = {
 	name: "system",
-	version: "1.0.1",
+	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "View information about the hardware the bot is using",
-	commandCategory: "System",
+	credits: "Zia_Rein",
+	description: "sysinfo",
+	commandCategory: "Hệ thống",
 	cooldowns: 5,
 	dependencies: {
-		"systeminformation": "",
-		"pidusage": ""
+		"systeminformation": ""
 	}
 };
 
@@ -20,63 +19,69 @@ function byte2mb(bytes) {
 }
 
 module.exports.run = async function ({ api, event }) {
-	const { cpu, time, cpuTemperature, currentLoad, memLayout, diskLayout, mem, osInfo } = global.nodemodule["systeminformation"];
+	const { cpu, cpuTemperature, currentLoad, memLayout, diskLayout, mem, osInfo } = global.nodemodule["systeminformation"];
 	const timeStart = Date.now();
+  const axios = global.nodemodule["axios"];
+    const request = global.nodemodule["request"];
+    const fs = global.nodemodule["fs-extra"];
 
 	try {
-		const pidusage = await global.nodemodule["pidusage"](process.pid)
-		var { manufacturer, brand, speedMax, physicalCores, cores } = await cpu();
+		var { manufacturer, brand, speed, physicalCores, cores } = await cpu();
 		var { main: mainTemp } = await cpuTemperature();
 		var { currentLoad: load } = await currentLoad();
-		var { uptime } = await time();
 		var diskInfo = await diskLayout();
 		var memInfo = await memLayout();
 		var { total: totalMem, available: availableMem } = await mem();
-		var { platform: OSPlatform, build: OSBuild } = await osInfo();;
-		var disk = [], i = 1;
+		var { platform: OSPlatform, build: OSBuild } = await osInfo();
 
-		var hours = Math.floor(uptime / (60 * 60));
-		var minutes = Math.floor((uptime % (60 * 60)) / 60);
-		var seconds = Math.floor(uptime % 60);
+		var time = process.uptime();
+		var hours = Math.floor(time / (60 * 60));
+		var minutes = Math.floor((time % (60 * 60)) / 60);
+		var seconds = Math.floor(time % 60);
 		if (hours < 10) hours = "0" + hours;
 		if (minutes < 10) minutes = "0" + minutes;
 		if (seconds < 10) seconds = "0" + seconds;
 
-		for (const singleDisk of diskInfo) {
-			disk.push(
-				`==== 「 𝐃𝐈𝐒𝐊 ${i++} 」 ====\n` +
-				"𝐍𝐚𝐦𝐞: " + singleDisk.name + "\n" +
-				"𝐓𝐲𝐩𝐞: " + singleDisk.interfaceType + "\n" + 
-				"𝐒𝐢𝐳𝐞: " + byte2mb(singleDisk.size) + "\n" +
-				"𝐓𝐞𝐦𝐩𝐞𝐫𝐚𝐭𝐮𝐫𝐞: " + singleDisk.temperature + "°C"
-			)
-		}
-
-		return api.sendMessage(
-			"====== 𝐒𝐲𝐬𝐭𝐞𝐦 𝐈𝐧𝐟𝐨 ======\n" +
-			"==== 「 𝐂𝐏𝐔 」 ====\n" +
-			"𝐂𝐏𝐔 𝐌𝐨𝐝𝐞𝐥: " + manufacturer + " " + brand + " " + speedMax + "GHz\n" +
-			"𝐂𝐨𝐫𝐞𝐬: " + cores + "\n" +
-			"𝐓𝐡𝐫𝐞𝐚𝐝𝐬: " + physicalCores + "\n" +
-			"𝐓𝐞𝐦𝐩𝐞𝐫𝐚𝐭𝐮𝐫𝐞: " + mainTemp + "°C\n" +
-			"𝐋𝐨𝐚𝐝: " + load.toFixed(1) + "%\n" +
-			"𝐍𝐨𝐝𝐞 𝐮𝐬𝐚𝐠𝐞: " + pidusage.cpu.toFixed(1) + "%\n" +
-			"==== 「 𝐌𝐄𝐌𝐎𝐑𝐘 」 ====\n" +
-			"𝐒𝐢𝐳𝐞: " + byte2mb(memInfo[0].size) +
-			"\n𝐓𝐲𝐩𝐞: " + memInfo[0].type +
-			"\n𝐓𝐨𝐭𝐚𝐥: " + byte2mb(totalMem) +
-			"\n𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞: " + byte2mb(availableMem) +
-			"\n𝐍𝐨𝐝𝐞 𝐮𝐬𝐚𝐠𝐞: " + byte2mb(pidusage.memory) + "\n" +
-			disk.join("\n") + "\n" +
-			"==== 「 𝐎𝐒 」 ====\n" +
-			"𝐏𝐥𝐚𝐭𝐟𝐨𝐫𝐦: " + OSPlatform +
-			"\n𝐁𝐮𝐢𝐥𝐝: " + OSBuild +
-			"\n𝐔𝐩𝐭𝐢𝐦𝐞: " + hours + ":" + minutes + ":" + seconds +
-			"\n𝐏𝐢𝐧𝐠: " + (Date.now() - timeStart) + "ms",
-			event.threadID, event.messageID
-		)
+		var ZiaRein = (
+			"𝗦𝘆𝘀𝘁𝗲𝗺 𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻" +
+			"\n\n𝗖𝗣𝗨 𝗜𝗻𝗳𝗼" +
+			"\n𝗖𝗣𝗨 𝗠𝗼𝗱𝗲𝗹: " + manufacturer + brand +
+			"\n𝗦𝗽𝗲𝗲𝗱: " + speed + "GHz" +
+			"\n𝗖𝗼𝗿𝗲𝘀: " + physicalCores +
+			"\n𝗧𝗵𝗿𝗲𝗮𝗱𝘀: " + cores +
+			"\n𝗧𝗲𝗺𝗽𝗲𝗿𝗮𝘁𝘂𝗿𝗲: " + mainTemp + "°C" +
+			"\n𝗟𝗼𝗮𝗱: " + load.toFixed(1) + "%" +
+			"\n\n𝗠𝗲𝗺𝗼𝗿𝘆 𝗜𝗻𝗳𝗼" +
+			"\n𝗦𝗶𝘇𝗲: " + byte2mb(memInfo[0].size) +
+			"\n𝗧𝘆𝗽𝗲: " + memInfo[0].type +
+			"\n𝗧𝗼𝘁𝗮𝗹: " + byte2mb(totalMem) +
+			"\n𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲: " + byte2mb(availableMem) +
+			"\n\n𝗗𝗶𝘀𝗸 𝗜𝗻𝗳𝗼" +
+			"\n𝗡𝗮𝗺𝗲: " + diskInfo[0].name +
+			"\n𝗦𝗶𝘇𝗲: " + byte2mb(diskInfo[0].size) +
+			"\n𝗧𝗲𝗺𝗽𝗲𝗿𝗮𝘁𝘂𝗿𝗲: " + diskInfo[0].temperature + "°C" +
+			"\n\n𝗢𝘀 𝗶𝗻𝗳𝗼" +
+			"\n𝗣𝗹𝗮𝘁𝗳𝗼𝗿𝗺: " + OSPlatform +
+			"\n𝗕𝘂𝗶𝗹𝗱: " + OSBuild +
+			"\n𝗨𝗽𝘁𝗶𝗺𝗲: " + hours + ":" + minutes + ":" + seconds +
+			"\n𝗣𝗶𝗻𝗴: " + (Date.now() - timeStart) + "ms");
+    var link = [
+"https://i.imgur.com/u1WkhXi.jpg",
+"https://i.imgur.com/zuUMUDp.jpg",
+"https://i.imgur.com/skHrcq9.jpg",
+"https://i.imgur.com/TE9tH8w.jpg",
+"https://i.imgur.com/on9p0FK.jpg",
+"https://i.imgur.com/mriBW5m.jpg",
+"https://i.imgur.com/ju7CyHo.jpg",
+"https://i.imgur.com/KJunp2s.jpg",
+"https://i.imgur.com/6knPOgd.jpg",
+"https://i.imgur.com/Nxcbwxk.jpg",
+"https://i.imgur.com/FgtghTN.jpg",
+    ];
+    var callback = () => api.sendMessage({ body: ZiaRein, attachment: fs.createReadStream(__dirname + "/cache/5.jpg")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/5.jpg"), event.messageID);
+    return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname + "/cache/5.jpg")).on("close", () => callback());
 	}
 	catch (e) {
 		console.log(e)
 	}
-}
+    }

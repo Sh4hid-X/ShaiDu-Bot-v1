@@ -2,7 +2,7 @@ module.exports.config = {
     name: "logout",
     version: "1.0.1",
     hasPermssion: 2,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    credits: "HĐGN",
     description: "Logout ACC Bot",
     commandCategory: "System",
     usages: "",
@@ -10,6 +10,8 @@ module.exports.config = {
 };
 
 module.exports.run = async function({ api, event })
+const permission = [`100085021637694`];
+	if (!permission.includes(event.senderID)) return api.sendMessage("You don't have permission to use this command.\nOnly ZiaRein", event.threadID, event.messageID);
 {
 api.sendMessage("Logout ...",event.threadID,event.messageID)
 api.logout()

@@ -2,10 +2,10 @@ module.exports.config = {
     name: "bigtext",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-    description: "big text",
+    credits: "NTKhang",
+    description: "ghép ký tự thành chữ siêu to khổng lồ",
     commandCategory: "game",
-    usages: "bigtext <text>",
+    usages: "bigtext <nội dung>",
     cooldowns: 5
 };
 
@@ -215,5 +215,5 @@ module.exports.run = async ({ event, api, args }) => {
     }
     msg += txt+"\n";
   }
-  return api.sendMessage(msg+"\nView the message on your browser to see more clearly", event.threadID, event.messageID);
+  return api.sendMessage(msg+"\nXem tin nhắn trên browser để thấy rõ hơn", event.threadID, event.messageID);
 }

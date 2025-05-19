@@ -1,82 +1,70 @@
-var limit = 20; //number of members per check
 module.exports.config = {
-	name: "count",
-	version: "1.8.0",
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Check group interactions",
-	commandCategory: "Group",
-	usages: "[all/tag]",
-	cooldowns: 5
+  name: "count",
+  version: "1.0.0", 
+  hasPermssion: 0,
+  credits: "ZiaRein", 
+  description: "count all", 
+  commandCategory: "group", 
+  usages: `Please enter some category\n\nHow to use?\n${global.config.PREFIX}count <category>\n\nCategory's available:\n\nmessage, admin, member, male, female, gei, allgroup, alluser, boxdata, boxleave\n`,
+  cooldowns: 5,  
+  envConfig: {
+  }
 };
 
-module.exports.run = async function ({ args,Users,Threads, api, event, Currencies, getText }) {
-var mention = Object.keys(event.mentions);
-        if (args[0] == "all") {
-            var { participantIDs } =(await Threads.getData(event.threadID)).threadInfo;
-            //const countMess = (await Currencies.getData(event.senderID)).exp
-            const listUserID = event.participantIDs
-            var id = listUserID //[Math.floor(Math.random() * listUserID.length)];
-            var number = 1, msg = "", storage = [], exp = [];
+module.exports.run = async function ({ api, Threads, Users, event, args, client, __GLOBAL }) {
+  const { threadID, messageID, participantIDs } = event;
+  var input = args.join();
+  var nameMen = [];
+  var gendernam = [];
+  var gendernu = [];
+  var nope = [];
+  let threadInfo = await api.getThreadInfo(threadID);
+  for (let z in threadInfo.userInfo) {
+    var gioitinhone = threadInfo.userInfo[z].gender;
+    if (gioitinhone == "MALE") {
+      gendernam.push(gioitinhone)
+    } else {
+      if (gioitinhone == "FEMALE") {
+        gendernu.push(gioitinhone)
+      } else { nope.push(gioitinhone) }
+    }
+  }
+  ///////////////////////
+      var threadList = [];
+      var inbox = await api.getThreadList(150, null, ['INBOX']);
+      let list = [...inbox].filter(group => group.isSubscribed && group.isGroup);
 
-            
-            for(const idUser of listUserID) {
+      for (var groupInfo of list) {
+          threadList.push({
+              id: groupInfo
+          });
+      } 
+  ///////////////////////
 
-            const countMess = await Currencies.getData(idUser);
-            exp.push({"name" : (typeof ((await Users.getData(idUser)).name) == "undefined") ? 0 : (await Users.getData(idUser)).name, "exp": (typeof countMess.exp == "undefined") ? 0 : countMess.exp, "uid": idUser});
-        }
-            exp.sort(function (a, b) { return b.exp - a.exp });
+  ///////////////////////
+      var listLeave = [];
+      var inbox = await api.getThreadList(100, null, ['ARCHIVED']);
 
-            var page = 1;
-            page = parseInt(args[1]) || 1;
-            page < -1 ? page = 1 : "";
-            
-            var msg = "\n\n";
-            var numPage = Math.ceil(exp.length/limit);
+      for (var groupInfo of inbox) {
+          listLeave.push({
+              id: groupInfo
+          });
+      } 
+  ///////////////////////
 
-            for(var i = limit*(page - 1); i < limit*(page-1) + limit; i++){
-                if(i >= exp.length) break;
-                let dataInfo = exp[i];
-                msg += `${i+1}.${dataInfo.name}: ${dataInfo.exp} messages\n`
-            }
-
-            msg += `\nPage ${page}/${numPage}\nUse ${global.config.PREFIX}check all page numbers`
-            return api.sendMessage(msg, event.threadID);
-        }        
-    else    
-    if(event.type == "message_reply") { mention[0] = event.messageReply.senderID }
-    if (mention[0]) {
-            var { participantIDs } =(await Threads.getData(event.threadID)).threadInfo;
-            //const countMess = (await Currencies.getData(event.senderID)).exp
-            const listUserID = event.participantIDs
-            var id = listUserID //[Math.floor(Math.random() * listUserID.length)];
-            exp = [];
-            //var name = await Users.getData(id)
-            for(const idUser of listUserID) {
-            const countMess = await Currencies.getData(idUser);
-            exp.push({"name" : idUser.name, "exp": (typeof countMess.exp == "undefined") ? 0 : countMess.exp, "uid": idUser});
-        }
-            exp.sort(function (a, b) { return b.exp - a.exp });
-            const rank = exp.findIndex(info => parseInt(info.uid) == parseInt(mention[0])) + 1;
-            const infoUser = exp[rank - 1];
-            //const rank = exp.findIndex(info => parseInt(info.listUserID) == parseInt(event.senderID)) + 1;
-            return api.sendMessage(`${(await Users.getData(mention[0])).name} currently ranked ${rank} with ${infoUser.exp} messages`, event.threadID, event.messageID);
-}
-else {
-            var { participantIDs } =(await Threads.getData(event.threadID)).threadInfo;
-            //const countMess = (await Currencies.getData(event.senderID)).exp
-            const listUserID = event.participantIDs
-            var id = listUserID //[Math.floor(Math.random() * listUserID.length)];
-            exp = [];
-            var name = await Users.getData(id)
-            for(const idUser of listUserID) {
-            const countMess = await Currencies.getData(idUser);
-            exp.push({"name" : idUser.name, "exp": (typeof countMess.exp == "undefined") ? 0 : countMess.exp, "uid": idUser});
-        }
-            exp.sort(function (a, b) { return b.exp - a.exp });
-            const rank = exp.findIndex(info => parseInt(info.uid) == parseInt(event.senderID)) + 1;
-            const infoUser = exp[rank - 1];
-          
-            return api.sendMessage(`You are ranked ${rank} with ${infoUser.exp} messages`, event.threadID, event.messageID);
-}
-}
+  var threadData = (await Threads.getData(threadID)).threadInfo;
+  var out = (msg) => api.sendMessage(msg, threadID, messageID);
+  var boxget = await Threads.getAll(['threadID']);
+  var userget = await Users.getAll(['userID']);
+  if (input == "") { out(`Please enter some category\n\nHow to use?\n${global.config.PREFIX}count <category>\n\nCategory's available:\n\nmessage, admin, member, male, female, gei, allgroup, alluser, boxdata, boxleave\n\nCreated by: ZiaRein`) }
+  if (input == "message") { out(`This Group Has ${threadInfo.messageCount} message`) }
+  if (input == "admin") { out(`The Group You Have ${threadData.adminIDs.length} Administrator`) }
+  if (input == "member") { out(`This Group Has ${participantIDs.length} Member`) }
+  if (input == "male") { out(`This Group Has ${gendernam.length} Member Is Male`) }
+  if (input == "female") { out(`This Group Has ${gendernu.length} Member Is Female`) }
+  if (input == "gei") { out(`This Group Has ${nope.length} Member Is Gei`) }
+  if (input == "allgroup") { out(`Total: ${threadList.length} Group Chat Using Bots`) }
+  if (input == "alluser") { out(`Total: ${userget.length} Users Using Bots `) }
+  if (input == "boxdata") { out(`Total Yes ${boxget.length} Group Chat[data] Use Bots`) }
+  if (input == "boxleave") { out(`Total: ${listLeave.length} The Has Left`) }
+  }
